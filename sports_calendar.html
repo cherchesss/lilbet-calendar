@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Календарь событий</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;600;700;800&family=Nairi:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nairi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    #34cc67 0px,
+                    #34cc67 20px,
+                    transparent 20px,
+                    transparent 40px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    #ff00ff 0px,
+                    #ff00ff 3px,
+                    transparent 3px,
+                    transparent 60px
+                ),
+                linear-gradient(135deg, #34cc67 0%, #2d8f47 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .header h1 {
+            font-family: 'Tektur', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-family: 'Nairi', sans-serif;
+            opacity: 0.9;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .filter-btn {
+            background: rgba(52, 204, 103, 0.3);
+            border: 2px solid #34cc67;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-family: 'Tektur', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #34cc67;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 204, 103, 0.4);
+        }
+
+        .calendar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h2 {
+            font-family: 'Tektur', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-family: 'Tektur', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            padding: 10px 0;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .day:hover {
+            background: rgba(52, 204, 103, 0.1);
+            transform: scale(1.05);
+        }
+
+        .day.has-events {
+            background: linear-gradient(135deg, #34cc67, #2d8f47);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 204, 103, 0.3);
+        }
+
+        .day.has-events:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(52, 204, 103, 0.4);
+        }
+
+        .event-indicator {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+
+        .events-panel {
+            margin-top: 25px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .event-card.football { border-left-color: #4CAF50; }
+        .event-card.basketball { border-left-color: #FF9800; }
+        .event-card.tennis { border-left-color: #9C27B0; }
+        .event-card.formula1 { border-left-color: #F44336; }
+        .event-card.hockey { border-left-color: #2196F3; }
+
+        .event-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .sport-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .sport-icon.football { background: #4CAF50; }
+        .sport-icon.basketball { background: #FF9800; }
+        .sport-icon.tennis { background: #9C27B0; }
+        .sport-icon.formula1 { background: #F44336; }
+        .sport-icon.hockey { background: #2196F3; }
+
+        .event-title {
+            font-family: 'Tektur', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .event-details {
+            font-family: 'Nairi', sans-serif;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 3px;
+            font-weight: 400;
+        }
+
+        .event-time {
+            font-family: 'Nairi', sans-serif;
+            font-size: 13px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .no-events-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .event-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <svg class="logo" width="120" height="37" viewBox="0 0 207 66" xmlns="http://www.w3.org/2000/svg">
+                <defs><style>.b{fill:white;fill-rule:evenodd;}</style></defs>
+                <path class="b" d="M68.34,.01h-17.66V66h17.66V.01h0ZM.86,.01H18.51V66H.86V.01H.86ZM25.77,20.49h17.66v45.51H25.77V20.49h0Zm.03-20.49h17.6V11.37l-17.6,6.55V0Z"/>
+                <path class="b" d="M76.54,63.55V0h14.88V15.02h10.65c11.4,0,17.1,5.7,17.1,17.1v16.79c0,5.56-1.46,9.8-4.38,12.72-2.92,2.92-7.16,4.38-12.72,4.38h-25.53v-2.45h0Zm63.96-32.34c0-1.93,.97-2.89,2.89-2.89h8.37c1.93,0,2.89,.97,2.89,2.89v6.26h-14.16v-6.26h0Zm-49.04,21.49h9.88c1.93,0,2.89-.96,2.89-2.89V31.21c0-1.93-.96-2.89-2.89-2.89h-9.88v24.39h0Zm34.39-3.8c0,5.56,1.46,9.8,4.38,12.72,2.92,2.92,7.16,4.38,12.72,4.38h16.92l7.07-5.3v-7.67c-8.92,0-17.29-.04-26.21,0h0v-6.57h28.03v-14.34c0-11.4-5.7-17.1-17.1-17.1h-8.71c-5.56,0-9.8,1.46-12.72,4.38-2.92,2.92-4.38,7.16-4.38,12.72v16.79h0Zm49.95,0V.36h16.26V15.02l14.17,.08v13.17h-14.17v24.48h0c5.48-.02,9.58,0,15.07,0v7.94l-7.07,5.3h-7.17c-5.56,0-9.8-1.46-12.72-4.38-2.92-2.92-4.38-7.16-4.38-12.72Z"/>
+            </svg>
+            <h1>Календарь событий</h1>
+            <p>Июль 2025</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-sport="all">Все</button>
+            <button class="filter-btn" data-sport="football">⚽ Футбол</button>
+            <button class="filter-btn" data-sport="basketball">🏀 Баскетбол</button>
+            <button class="filter-btn" data-sport="tennis">🎾 Теннис</button>
+            <button class="filter-btn" data-sport="formula1">🏎️ Ф1</button>
+            <button class="filter-btn" data-sport="hockey">🏒 Хоккей</button>
+        </div>
+
+        <div class="calendar">
+            <div class="calendar-header">
+                <h2>Июль 2025</h2>
+            </div>
+
+            <div class="weekdays">
+                <div class="weekday">Пн</div>
+                <div class="weekday">Вт</div>
+                <div class="weekday">Ср</div>
+                <div class="weekday">Чт</div>
+                <div class="weekday">Пт</div>
+                <div class="weekday">Сб</div>
+                <div class="weekday">Вс</div>
+            </div>
+
+            <div class="days" id="calendar-days"></div>
+
+            <div class="events-panel" id="events-panel">
+                <div class="no-events" id="no-events">
+                    <p>Выберите день для просмотра событий</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные событий для июля 2025
+        const events = {
+            1: [
+                {
+                    sport: 'football',
+                    title: 'Клубный ЧМ FIFA - 1/4 финала',
+                    details: 'Реал Мадрид - Манчестер Сити • США',
+                    time: '03:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - 1/8 финала (М)',
+                    details: 'ATP • Центральный корт',
+                    time: '15:30'
+                }
+            ],
+            2: [
+                {
+                    sport: 'basketball',
+                    title: 'NBA Summer League',
+                    details: 'Лейкерс - Селтикс • Лас-Вегас',
+                    time: '04:30'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - 1/8 финала (Ж)',
+                    details: 'WTA • Корт №1',
+                    time: '14:00'
+                }
+            ],
+            3: [
+                {
+                    sport: 'football',
+                    title: 'Клубный ЧМ FIFA - 1/4 финала',
+                    details: 'Барселона - ПСЖ • США',
+                    time: '03:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 1',
+                    details: 'NHL • Финальная серия',
+                    time: '02:00'
+                }
+            ],
+            4: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Великобритании - Практика',
+                    details: 'Формула 1 • Сильверстоун',
+                    time: '14:30'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - 1/4 финала (М)',
+                    details: 'ATP • Джокович - Алькарас',
+                    time: '15:00'
+                }
+            ],
+            5: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Великобритании - Квалификация',
+                    details: 'Формула 1 • Сильверстоун',
+                    time: '17:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'NBA Summer League - Полуфинал',
+                    details: 'Уорриорз - Нетс • Лас-Вегас',
+                    time: '05:00'
+                }
+            ],
+            6: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Великобритании',
+                    details: 'Формула 1 • Сильверстоун',
+                    time: '16:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - Полуфинал (Ж)',
+                    details: 'WTA • Центральный корт',
+                    time: '15:00'
+                }
+            ],
+            7: [
+                {
+                    sport: 'football',
+                    title: 'Клубный ЧМ FIFA - Полуфинал',
+                    details: 'Реал Мадрид - Барселона • США',
+                    time: '03:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 2',
+                    details: 'NHL • Финальная серия',
+                    time: '02:00'
+                }
+            ],
+            8: [
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - Полуфинал (М)',
+                    details: 'ATP • Медведев - Рублёв',
+                    time: '15:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'NBA Summer League - Финал',
+                    details: 'Финальная игра • Лас-Вегас',
+                    time: '04:00'
+                }
+            ],
+            9: [
+                {
+                    sport: 'football',
+                    title: 'Клубный ЧМ FIFA - Полуфинал',
+                    details: 'Манчестер Сити - ПСЖ • США',
+                    time: '03:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - Финал (Ж)',
+                    details: 'WTA • Центральный корт',
+                    time: '15:00'
+                }
+            ],
+            10: [
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 3',
+                    details: 'NHL • Финальная серия',
+                    time: '02:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'WNBA All-Star Game',
+                    details: 'Матч всех звёзд • Лас-Вегас',
+                    time: '04:00'
+                }
+            ],
+            11: [
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Ювентус - Атлетико • Мадрид',
+                    time: '21:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон - Финал (М)',
+                    details: 'ATP • Центральный корт',
+                    time: '15:00'
+                }
+            ],
+            12: [
+                {
+                    sport: 'football',
+                    title: 'Клубный ЧМ FIFA - Финал',
+                    details: 'Финальный матч • США',
+                    time: '03:00'
+                },
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Венгрии - Практика',
+                    details: 'Формула 1 • Хунгароринг',
+                    time: '13:30'
+                }
+            ],
+            13: [
+                {
+                    sport: 'tennis',
+                    title: 'ATP Hamburg Open - Финал',
+                    details: 'ATP 500 • Германия',
+                    time: '15:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Евролига - Летний турнир',
+                    details: 'ЦСКА - Барселона • Литва',
+                    time: '19:00'
+                }
+            ],
+            14: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Венгрии - Квалификация',
+                    details: 'Формула 1 • Хунгароринг',
+                    time: '16:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 4',
+                    details: 'NHL • Финальная серия',
+                    time: '02:00'
+                }
+            ],
+            15: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Венгрии',
+                    details: 'Формула 1 • Хунгароринг',
+                    time: '15:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Челси - Милан • Лондон',
+                    time: '20:00'
+                }
+            ],
+            16: [
+                {
+                    sport: 'tennis',
+                    title: 'WTA Newport Beach Open',
+                    details: 'WTA 250 • США',
+                    time: '23:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Евролига - Летний турнир',
+                    details: 'Реал Мадрид - Фенербахче',
+                    time: '20:00'
+                }
+            ],
+            17: [
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Бавария - Арсенал • Мюнхен',
+                    time: '21:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 5',
+                    details: 'NHL • Финальная серия',
+                    time: '02:00'
+                }
+            ],
+            18: [
+                {
+                    sport: 'tennis',
+                    title: 'ATP Swiss Open - 1/4 финала',
+                    details: 'ATP 250 • Швейцария',
+                    time: '13:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Евробаскет U20 - Полуфинал',
+                    details: 'Мужской турнир • Италия',
+                    time: '18:00'
+                }
+            ],
+            19: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Бельгии - Практика',
+                    details: 'Формула 1 • Спа-Франкоршам',
+                    time: '14:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Ливерпуль - Боруссия Д • Дортмунд',
+                    time: '20:30'
+                }
+            ],
+            20: [
+                {
+                    sport: 'tennis',
+                    title: 'ATP Swiss Open - Полуфинал',
+                    details: 'ATP 250 • Швейцария',
+                    time: '15:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Евробаскет U20 - Финал',
+                    details: 'Мужской турнир • Италия',
+                    time: '20:00'
+                }
+            ],
+            21: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Бельгии - Квалификация',
+                    details: 'Формула 1 • Спа-Франкоршам',
+                    time: '16:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 6',
+                    details: 'NHL • Финальная серия',
+                    time: '02:00'
+                }
+            ],
+            22: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Бельгии',
+                    details: 'Формула 1 • Спа-Франкоршам',
+                    time: '15:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Тоттенхэм - Наполи • Лондон',
+                    time: '19:00'
+                }
+            ],
+            23: [
+                {
+                    sport: 'tennis',
+                    title: 'ATP Swiss Open - Финал',
+                    details: 'ATP 250 • Швейцария',
+                    time: '15:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Чемпионат мира FIBA U19',
+                    details: 'Полуфинал • Греция',
+                    time: '17:00'
+                }
+            ],
+            24: [
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Интер - Манчестер Юнайтед • Милан',
+                    time: '21:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок Стэнли - Игра 7',
+                    details: 'NHL • Решающая игра',
+                    time: '02:00'
+                }
+            ],
+            25: [
+                {
+                    sport: 'tennis',
+                    title: 'WTA Washington Open - Финал',
+                    details: 'WTA 250 • США',
+                    time: '21:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Чемпионат мира FIBA U19',
+                    details: 'Финал • Греция',
+                    time: '19:00'
+                }
+            ],
+            26: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Нидерландов - Практика',
+                    details: 'Формула 1 • Зандвоорт',
+                    time: '13:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Рома - Вест Хэм • Рим',
+                    time: '20:00'
+                }
+            ],
+            27: [
+                {
+                    sport: 'tennis',
+                    title: 'ATP Kitzbühel Open - Финал',
+                    details: 'ATP 250 • Австрия',
+                    time: '15:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Кубок Европы FIBA - Финал',
+                    details: 'Мужской турнир • Словения',
+                    time: '20:00'
+                }
+            ],
+            28: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Нидерландов - Квалификация',
+                    details: 'Формула 1 • Зандвоорт',
+                    time: '16:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок мира по хоккею - Старт',
+                    details: 'Сборная России - Финляндия',
+                    time: '19:00'
+                }
+            ],
+            29: [
+                {
+                    sport: 'formula1',
+                    title: 'Гран-при Нидерландов',
+                    details: 'Формула 1 • Зандвоорт',
+                    time: '15:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Атлетико - Лацио • Мадрид',
+                    time: '21:30'
+                }
+            ],
+            30: [
+                {
+                    sport: 'tennis',
+                    title: 'ATP Montreal Masters - Старт',
+                    details: 'ATP Masters 1000 • Канада',
+                    time: '18:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'Евролига - Суперкубок',
+                    details: 'Финал четырёх • Белград',
+                    time: '20:00'
+                }
+            ],
+            31: [
+                {
+                    sport: 'football',
+                    title: 'Международный кубок чемпионов',
+                    details: 'Финал турнира • Лондон',
+                    time: '20:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Кубок мира по хоккею',
+                    details: 'Сборная России - Канада',
+                    time: '02:00'
+                }
+            ]
+        };
+
+        let currentFilter = 'all';
+        let selectedDay = null;
+
+        // Инициализация календаря
+        function initCalendar() {
+            const daysContainer = document.getElementById('calendar-days');
+            
+            // Июль 2025 начинается во вторник (день недели 2)
+            const firstDayOfWeek = 2; // 0 = воскресенье, 1 = понедельник, 2 = вторник
+            const daysInMonth = 31;
+            
+            // Добавляем пустые ячейки для дней предыдущего месяца
+            for (let i = 1; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day';
+                daysContainer.appendChild(emptyDay);
+            }
+            
+            // Добавляем дни месяца
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.textContent = day;
+                dayElement.addEventListener('click', () => selectDay(day));
+                
+                if (events[day]) {
+                    dayElement.classList.add('has-events');
+                    const indicator = document.createElement('div');
+                    indicator.className = 'event-indicator';
+                    dayElement.appendChild(indicator);
+                }
+                
+                daysContainer.appendChild(dayElement);
+            }
+        }
+
+        // Выбор дня
+        function selectDay(day) {
+            // Убираем выделение с предыдущего дня
+            document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
+            
+            // Выделяем выбранный день
+            const dayElements = document.querySelectorAll('.day');
+            const selectedDayElement = Array.from(dayElements).find(d => d.textContent == day);
+            if (selectedDayElement) {
+                selectedDayElement.classList.add('selected');
+            }
+            
+            selectedDay = day;
+            displayEvents(day);
+        }
+
+        // Отображение событий
+        function displayEvents(day) {
+            const eventsPanel = document.getElementById('events-panel');
+            const noEvents = document.getElementById('no-events');
+            
+            if (!events[day] || events[day].length === 0) {
+                eventsPanel.innerHTML = `
+                    <div class="no-events">
+                        <div class="no-events-icon">📅</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let filteredEvents = events[day];
+            if (currentFilter !== 'all') {
+                filteredEvents = events[day].filter(event => event.sport === currentFilter);
+            }
+
+            if (filteredEvents.length === 0) {
+                eventsPanel.innerHTML = `
+                    <div class="no-events">
+                        <div class="no-events-icon">🔍</div>
+                        <p>Событий этого типа на ${day} июля нет</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const eventsHTML = filteredEvents.map(event => {
+                const sportIcons = {
+                    football: '⚽',
+                    basketball: '🏀',
+                    tennis: '🎾',
+                    formula1: '🏎️',
+                    hockey: '🏒'
+                };
+
+                return `
+                    <a href="https://lil.bet/events/${event.sport}/${day}-july-2025" class="event-card ${event.sport}" target="_blank">
+                        <div class="event-header">
+                            <div class="sport-icon ${event.sport}">${sportIcons[event.sport]}</div>
+                            <div>
+                                <div class="event-title">${event.title}</div>
+                                <div class="event-details">${event.details}</div>
+                                <div class="event-time">🕐 ${event.time}</div>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+            eventsPanel.innerHTML = eventsHTML;
+        }
+
+        // Фильтрация по видам спорта
+        function initFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Убираем активный класс со всех кнопок
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Добавляем активный класс к выбранной кнопке
+                    btn.classList.add('active');
+                    
+                    currentFilter = btn.dataset.sport;
+                    
+                    // Если выбран день, обновляем события
+                    if (selectedDay) {
+                        displayEvents(selectedDay);
+                    }
+                    
+                    // Обновляем индикаторы на календаре
+                    updateCalendarIndicators();
+                });
+            });
+        }
+
+        // Обновление индикаторов на календаре
+        function updateCalendarIndicators() {
+            const dayElements = document.querySelectorAll('.day');
+            
+            dayElements.forEach((dayEl, index) => {
+                const dayNum = parseInt(dayEl.textContent);
+                if (!dayNum || !events[dayNum]) return;
+                
+                let hasFilteredEvents = false;
+                if (currentFilter === 'all') {
+                    hasFilteredEvents = events[dayNum].length > 0;
+                } else {
+                    hasFilteredEvents = events[dayNum].some(event => event.sport === currentFilter);
+                }
+                
+                if (hasFilteredEvents) {
+                    dayEl.classList.add('has-events');
+                } else {
+                    dayEl.classList.remove('has-events');
+                }
+            });
+        }
+
+        // Добавляем стили для выбранного дня
+        const additionalCSS = `
+            .day.selected {
+                background: linear-gradient(135deg, #ff00ff, #cc00cc) !important;
+                color: white !important;
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(255, 0, 255, 0.4);
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = additionalCSS;
+        document.head.appendChild(style);
+
+        // Инициализация приложения
+        document.addEventListener('DOMContentLoaded', () => {
+            initCalendar();
+            initFilters();
+        });
+    </script>
+</body>
+</html>
