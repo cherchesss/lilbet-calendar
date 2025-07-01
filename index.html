@@ -175,6 +175,13 @@
             box-shadow: 0 6px 20px rgba(52, 204, 103, 0.4);
         }
 
+        .day.selected {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc) !important;
+            color: white !important;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 0, 255, 0.4);
+        }
+
         .event-indicator {
             width: 6px;
             height: 6px;
@@ -282,6 +289,32 @@
         .event-card {
             animation: fadeIn 0.5s ease forwards;
         }
+
+        .cta-button {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .cta-button a {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-family: 'Tektur', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(255, 0, 255, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -327,6 +360,12 @@
                     <p>Выберите день для просмотра событий</p>
                 </div>
             </div>
+
+            <div class="cta-button">
+                <a href="https://lil.bet/ru/line" target="_blank">
+                    ⚡ Заlilбись! ⚡
+                </a>
+            </div>
         </div>
     </div>
 
@@ -336,435 +375,697 @@
             1: [
                 {
                     sport: 'football',
-                    title: 'Клубный ЧМ FIFA - 1/4 финала',
-                    details: 'Реал Мадрид - Манчестер Сити • США',
-                    time: '03:00'
+                    title: 'Клубный чемпионат мира',
+                    details: 'Реал Мадрид — Ювентус',
+                    time: '22:00'
                 },
                 {
                     sport: 'tennis',
-                    title: 'Уимблдон - 1/8 финала (М)',
-                    details: 'ATP • Центральный корт',
+                    title: 'Уимблдон (мужчины)',
+                    details: 'Александр Мюллер — Новак Джокович',
                     time: '15:30'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Уимблдон',
+                    details: 'Димитров — Нишиока',
+                    time: '17:30'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'WNBA Commissioner\'s Cup',
+                    details: 'Чемпионат',
+                    time: '02:00'
                 }
             ],
             2: [
                 {
-                    sport: 'basketball',
-                    title: 'NBA Summer League',
-                    details: 'Лейкерс - Селтикс • Лас-Вегас',
-                    time: '04:30'
+                    sport: 'football',
+                    title: 'Чемпионат Мира (клубы)',
+                    details: 'Боруссия Дортмунд — КФ Монтеррей',
+                    time: '04:00'
                 },
                 {
                     sport: 'tennis',
-                    title: 'Уимблдон - 1/8 финала (Ж)',
-                    details: 'WTA • Корт №1',
+                    title: 'Уимблдон (женщины)',
+                    details: 'Арина Соболенко — Мари Боузкова',
+                    time: '10:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Чемпионат Японии',
+                    details: 'Виссел Кобе — Хиросима',
+                    time: '13:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: '1/32 финала',
                     time: '14:00'
                 }
             ],
             3: [
                 {
                     sport: 'football',
-                    title: 'Клубный ЧМ FIFA - 1/4 финала',
-                    details: 'Барселона - ПСЖ • США',
-                    time: '03:00'
+                    title: 'Кубок КОНКАКАФ 2025',
+                    details: 'США — Гватемала',
+                    time: '02:00'
                 },
                 {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 1',
-                    details: 'NHL • Финальная серия',
-                    time: '02:00'
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: '1/32 финала',
+                    time: '14:00'
                 }
             ],
             4: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Великобритании - Практика',
-                    details: 'Формула 1 • Сильверстоун',
-                    time: '14:30'
+                    sport: 'football',
+                    title: 'Клубный чемпионат мира 2025',
+                    details: 'Флуминенсе — Аль-Хилаль',
+                    time: '22:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Нью-Йорк Сити — Торонто',
+                    time: '02:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Премьер-лига Казахстана',
+                    details: 'Кайрат — Туран',
+                    time: '18:00'
                 },
                 {
                     sport: 'tennis',
-                    title: 'Уимблдон - 1/4 финала (М)',
-                    details: 'ATP • Джокович - Алькарас',
-                    time: '15:00'
+                    title: 'Wimbledon',
+                    details: '1/16 финала',
+                    time: '14:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Melbourne Ice — Melbourne Mustangs',
+                    time: '09:30'
                 }
             ],
             5: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Великобритании - Квалификация',
-                    details: 'Формула 1 • Сильверстоун',
+                    sport: 'football',
+                    title: 'Клубный чемпионат мира 2025',
+                    details: 'Палмейрас — Челси',
+                    time: '04:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Клубный чемпионат мира 2025',
+                    details: 'ПСЖ — Бавария',
+                    time: '19:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: '1/16 финала',
+                    time: '14:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'New Zealand Championship. NZIHL',
+                    details: 'West Auckland Admirals — Botany Swarm',
+                    time: '04:45'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Adelaide Adrenaline — Brisbane Lightning',
+                    time: '06:45'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Canberra Brave — Central Coast Rhinos',
+                    time: '07:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Melbourne Ice — Newcastle North Stars',
+                    time: '07:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA Women\'s AmeriCup',
+                    details: 'Полуфинал 1',
+                    time: '22:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA Women\'s AmeriCup',
+                    details: 'Полуфинал 2',
+                    time: '00:30'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA U19 Men\'s World Cup',
+                    details: 'Полуфинал 1',
                     time: '17:00'
                 },
                 {
                     sport: 'basketball',
-                    title: 'NBA Summer League - Полуфинал',
-                    details: 'Уорриорз - Нетс • Лас-Вегас',
-                    time: '05:00'
+                    title: 'FIBA U19 Men\'s World Cup',
+                    details: 'Полуфинал 2',
+                    time: '19:30'
                 }
             ],
             6: [
                 {
                     sport: 'formula1',
-                    title: 'Гран-при Великобритании',
-                    details: 'Формула 1 • Сильверстоун',
+                    title: 'Британский Гран‑При',
+                    details: 'Формула 1 • Сильверстоун, Великобритания',
                     time: '16:00'
                 },
                 {
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Монреаль Импакт — Интер Майами',
+                    time: '02:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Ди Си Юнайтед — Атланта Юнайтед',
+                    time: '02:30'
+                },
+                {
                     sport: 'tennis',
-                    title: 'Уимблдон - Полуфинал (Ж)',
-                    details: 'WTA • Центральный корт',
-                    time: '15:00'
+                    title: 'Wimbledon',
+                    details: '1/8 финала',
+                    time: '14:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Melbourne Mustangs — Newcastle North Stars',
+                    time: '04:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'New Zealand Championship. NZIHL',
+                    details: 'West Auckland Admirals — Botany Swarm',
+                    time: '05:30'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Adelaide Adrenaline — Brisbane Lightning',
+                    time: '06:45'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA Women\'s AmeriCup',
+                    details: 'Финал',
+                    time: '22:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA U19 Men\'s World Cup',
+                    details: 'Финал',
+                    time: '18:00'
                 }
             ],
             7: [
                 {
-                    sport: 'football',
-                    title: 'Клубный ЧМ FIFA - Полуфинал',
-                    details: 'Реал Мадрид - Барселона • США',
-                    time: '03:00'
-                },
-                {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 2',
-                    details: 'NHL • Финальная серия',
-                    time: '02:00'
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: '1/8 финала',
+                    time: '14:00'
                 }
             ],
             8: [
                 {
-                    sport: 'tennis',
-                    title: 'Уимблдон - Полуфинал (М)',
-                    details: 'ATP • Медведев - Рублёв',
-                    time: '15:00'
+                    sport: 'football',
+                    title: 'Лига Чемпионов 2025/26',
+                    details: 'Олимпия — Кайрат • 2-й квалификационный раунд',
+                    time: '20:00'
                 },
                 {
-                    sport: 'basketball',
-                    title: 'NBA Summer League - Финал',
-                    details: 'Финальная игра • Лас-Вегас',
-                    time: '04:00'
+                    sport: 'football',
+                    title: 'Клубный чемпионат мира 2025',
+                    details: 'Полуфинал 1 • Red Bull Arena',
+                    time: '22:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: '1/4 финала',
+                    time: '14:00'
                 }
             ],
             9: [
                 {
                     sport: 'football',
-                    title: 'Клубный ЧМ FIFA - Полуфинал',
-                    details: 'Манчестер Сити - ПСЖ • США',
-                    time: '03:00'
+                    title: 'Клубный чемпионат мира 2025',
+                    details: 'Полуфинал 2 • Levi\'s Stadium',
+                    time: '22:00'
                 },
                 {
                     sport: 'tennis',
-                    title: 'Уимблдон - Финал (Ж)',
-                    details: 'WTA • Центральный корт',
-                    time: '15:00'
+                    title: 'Wimbledon',
+                    details: '1/4 финала',
+                    time: '14:00'
                 }
             ],
             10: [
                 {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 3',
-                    details: 'NHL • Финальная серия',
-                    time: '02:00'
+                    sport: 'football',
+                    title: 'Лига Конференций 2025/26',
+                    details: 'Торпедо Кутаиси — Ордабасы • 1-й квалиф. раунд',
+                    time: '19:00'
                 },
                 {
-                    sport: 'basketball',
-                    title: 'WNBA All-Star Game',
-                    details: 'Матч всех звёзд • Лас-Вегас',
-                    time: '04:00'
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: '1/4 финала',
+                    time: '14:00'
                 }
             ],
             11: [
                 {
-                    sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Ювентус - Атлетико • Мадрид',
-                    time: '21:00'
-                },
-                {
                     sport: 'tennis',
-                    title: 'Уимблдон - Финал (М)',
-                    details: 'ATP • Центральный корт',
-                    time: '15:00'
+                    title: 'Wimbledon',
+                    details: 'Полуфиналы',
+                    time: '14:00'
                 }
             ],
             12: [
                 {
                     sport: 'football',
-                    title: 'Клубный ЧМ FIFA - Финал',
-                    details: 'Финальный матч • США',
-                    time: '03:00'
+                    title: 'Суперкубок России 2025/26',
+                    details: 'Краснодар — ЦСКА • Финал',
+                    time: '18:00'
                 },
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Венгрии - Практика',
-                    details: 'Формула 1 • Хунгароринг',
-                    time: '13:30'
+                    sport: 'football',
+                    title: 'Чемпионат Бразилии (Серия A)',
+                    details: 'Фламенго — Сан-Паулу',
+                    time: '23:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Чемпионат Бразилии (Серия A)',
+                    details: 'Сантос — Палмейрас',
+                    time: '01:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Премьер-лига Казахстан 2025',
+                    details: 'Ордабасы — Астана',
+                    time: '18:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Wimbledon',
+                    details: 'Финал (женщины)',
+                    time: '15:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA U19 Women\'s World Cup',
+                    details: 'Финал',
+                    time: '17:00'
                 }
             ],
             13: [
                 {
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Интер Майами — Нэшвилл',
+                    time: '02:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Аргентинская Примера 2025',
+                    details: 'Ривер Плейт — Платенсе',
+                    time: '23:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Товарищеский матч',
+                    details: 'Престон — Ливерпуль',
+                    time: '17:00'
+                },
+                {
                     sport: 'tennis',
-                    title: 'ATP Hamburg Open - Финал',
-                    details: 'ATP 500 • Германия',
+                    title: 'Wimbledon',
+                    details: 'Финал (мужчины)',
                     time: '15:00'
-                },
-                {
-                    sport: 'basketball',
-                    title: 'Евролига - Летний турнир',
-                    details: 'ЦСКА - Барселона • Литва',
-                    time: '19:00'
-                }
-            ],
-            14: [
-                {
-                    sport: 'formula1',
-                    title: 'Гран-при Венгрии - Квалификация',
-                    details: 'Формула 1 • Хунгароринг',
-                    time: '16:00'
-                },
-                {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 4',
-                    details: 'NHL • Финальная серия',
-                    time: '02:00'
                 }
             ],
             15: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Венгрии',
-                    details: 'Формула 1 • Хунгароринг',
-                    time: '15:00'
-                },
-                {
                     sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Челси - Милан • Лондон',
-                    time: '20:00'
+                    title: 'Лига Чемпионов 2025/26',
+                    details: 'Кайрат — Олимпия • 2-й квалификационный раунд',
+                    time: '18:00'
                 }
             ],
             16: [
                 {
-                    sport: 'tennis',
-                    title: 'WTA Newport Beach Open',
-                    details: 'WTA 250 • США',
-                    time: '23:00'
-                },
-                {
-                    sport: 'basketball',
-                    title: 'Евролига - Летний турнир',
-                    details: 'Реал Мадрид - Фенербахче',
-                    time: '20:00'
+                    sport: 'football',
+                    title: 'Лига Чемпионов 2025/26',
+                    details: 'Динамо Минск — Лудогорец • 2-й квалиф. раунд',
+                    time: '21:45'
                 }
             ],
             17: [
                 {
                     sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Бавария - Арсенал • Мюнхен',
-                    time: '21:00'
-                },
-                {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 5',
-                    details: 'NHL • Финальная серия',
-                    time: '02:00'
+                    title: 'Лига Конференций 2025/26',
+                    details: 'Ордабасы — Торпедо Кутаиси • 1-й квалиф. раунд',
+                    time: '19:00'
                 }
             ],
             18: [
                 {
-                    sport: 'tennis',
-                    title: 'ATP Swiss Open - 1/4 финала',
-                    details: 'ATP 250 • Швейцария',
-                    time: '13:00'
+                    sport: 'football',
+                    title: 'Россия. Премьер-лига 2025/26',
+                    details: 'Торпедо — ЦСКА',
+                    time: '19:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Россия. Премьер-лига 2025/26',
+                    details: 'Зенит — Ростов',
+                    time: '21:30'
                 },
                 {
                     sport: 'basketball',
-                    title: 'Евробаскет U20 - Полуфинал',
-                    details: 'Мужской турнир • Италия',
-                    time: '18:00'
+                    title: 'WNBA All-Star Weekend',
+                    details: 'Skills Challenge & 3-Point Contest',
+                    time: '02:00'
                 }
             ],
             19: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Бельгии - Практика',
-                    details: 'Формула 1 • Спа-Франкоршам',
+                    sport: 'football',
+                    title: 'Премьер-лига Казахстан 2025',
+                    details: 'Кайрат — Кайсар',
+                    time: '18:00'
+                },
+                {
+                    sport: 'hockey',
+                    title: 'Australia. AIHL',
+                    details: 'Adelaide Adrenaline — Melbourne Mustangs',
+                    time: '07:15'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA Women\'s Asia Cup',
+                    details: 'Полуфинал 1',
+                    time: '12:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA Women\'s Asia Cup',
+                    details: 'Полуфинал 2',
                     time: '14:30'
                 },
                 {
-                    sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Ливерпуль - Боруссия Д • Дортмунд',
-                    time: '20:30'
+                    sport: 'basketball',
+                    title: 'FIBA U20 EuroBasket',
+                    details: 'Полуфинал 1',
+                    time: '17:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA U20 EuroBasket',
+                    details: 'Полуфинал 2',
+                    time: '19:30'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'NBA Summer League',
+                    details: 'Полуфиналы',
+                    time: '04:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'WNBA All-Star Weekend',
+                    details: 'All-Star Game • Team Clark vs Team Collier',
+                    time: '02:00'
                 }
             ],
             20: [
                 {
-                    sport: 'tennis',
-                    title: 'ATP Swiss Open - Полуфинал',
-                    details: 'ATP 250 • Швейцария',
-                    time: '15:00'
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Нью-Йорк Ред Буллз — Интер Майами',
+                    time: '02:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Атланта Юнайтед — Шарлотт',
+                    time: '02:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Аргентинская Примера 2025',
+                    details: 'Институто — Ривер Плейт',
+                    time: '23:00'
                 },
                 {
                     sport: 'basketball',
-                    title: 'Евробаскет U20 - Финал',
-                    details: 'Мужской турнир • Италия',
-                    time: '20:00'
+                    title: 'FIBA Women\'s Asia Cup',
+                    details: 'Финал',
+                    time: '14:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'FIBA U20 EuroBasket',
+                    details: 'Финал',
+                    time: '18:00'
+                },
+                {
+                    sport: 'basketball',
+                    title: 'NBA Summer League',
+                    details: 'Финал',
+                    time: '04:00'
                 }
             ],
             21: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Бельгии - Квалификация',
-                    details: 'Формула 1 • Спа-Франкоршам',
-                    time: '16:00'
+                    sport: 'football',
+                    title: 'Товарищеские матчи 2025',
+                    details: 'Спортинг — Сандерленд',
+                    time: '22:00'
                 },
                 {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 6',
-                    details: 'NHL • Финальная серия',
-                    time: '02:00'
+                    sport: 'tennis',
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • 1/16 финала',
+                    time: '18:00'
                 }
             ],
             22: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Бельгии',
-                    details: 'Формула 1 • Спа-Франкоршам',
-                    time: '15:00'
+                    sport: 'football',
+                    title: 'Лига Чемпионов 2025/26',
+                    details: 'Бранн — Ред Булл • 3-й квалиф. раунд',
+                    time: '20:00'
                 },
                 {
-                    sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Тоттенхэм - Наполи • Лондон',
-                    time: '19:00'
+                    sport: 'tennis',
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • 1/16 финала',
+                    time: '18:00'
                 }
             ],
             23: [
                 {
-                    sport: 'tennis',
-                    title: 'ATP Swiss Open - Финал',
-                    details: 'ATP 250 • Швейцария',
-                    time: '15:00'
+                    sport: 'football',
+                    title: 'Чемпионат Бразилии (Серия A)',
+                    details: 'Коринтианс — Крузейро',
+                    time: '23:00'
                 },
                 {
-                    sport: 'basketball',
-                    title: 'Чемпионат мира FIBA U19',
-                    details: 'Полуфинал • Греция',
-                    time: '17:00'
+                    sport: 'football',
+                    title: 'Чемпионат Бразилии (Серия A)',
+                    details: 'Сантос — Интернасьонал',
+                    time: '01:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Товарищеские матчи 2025',
+                    details: 'Арсенал — Милан',
+                    time: '14:30'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • 1/8 финала',
+                    time: '18:00'
                 }
             ],
             24: [
                 {
                     sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Интер - Манчестер Юнайтед • Милан',
-                    time: '21:00'
+                    title: 'Лига Конференций 2025/26',
+                    details: 'Астана — Зимбру • 1-й квалиф. раунд',
+                    time: '17:00'
                 },
                 {
-                    sport: 'hockey',
-                    title: 'Кубок Стэнли - Игра 7',
-                    details: 'NHL • Решающая игра',
-                    time: '02:00'
+                    sport: 'football',
+                    title: 'Товарищеские матчи 2025',
+                    details: 'Аякс — Селтик',
+                    time: '20:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • 1/8 финала',
+                    time: '18:00'
                 }
             ],
             25: [
                 {
+                    sport: 'football',
+                    title: 'Россия. Премьер-лига 2025/26',
+                    details: 'Рубин — Зенит',
+                    time: '19:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Россия. Премьер-лига 2025/26',
+                    details: 'Краснодар — Локомотив',
+                    time: '21:30'
+                },
+                {
                     sport: 'tennis',
-                    title: 'WTA Washington Open - Финал',
-                    details: 'WTA 250 • США',
-                    time: '21:00'
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • 1/4 финала',
+                    time: '18:00'
                 },
                 {
                     sport: 'basketball',
-                    title: 'Чемпионат мира FIBA U19',
-                    details: 'Финал • Греция',
+                    title: 'Arab Basketball Championship',
+                    details: 'Финал',
                     time: '19:00'
                 }
             ],
             26: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Нидерландов - Практика',
-                    details: 'Формула 1 • Зандвоорт',
-                    time: '13:30'
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Лос-Анджелес — Портленд Тимберз',
+                    time: '05:30'
                 },
                 {
                     sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Рома - Вест Хэм • Рим',
-                    time: '20:00'
+                    title: 'Чемпионат Бразилии (Серия A)',
+                    details: 'Сан-Паулу — Флуминенсе',
+                    time: '23:00'
+                },
+                {
+                    sport: 'football',
+                    title: 'Чемпионат Бразилии (Серия A)',
+                    details: 'Палмейрас — Гремио',
+                    time: '01:30'
+                },
+                {
+                    sport: 'football',
+                    title: 'Премьер-лига Казахстан 2025',
+                    details: 'Тобол — Кайрат',
+                    time: '18:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • 1/2 финала',
+                    time: '18:00'
                 }
             ],
             27: [
                 {
-                    sport: 'tennis',
-                    title: 'ATP Kitzbühel Open - Финал',
-                    details: 'ATP 250 • Австрия',
+                    sport: 'formula1',
+                    title: 'Бельгийский Гран‑При',
+                    details: 'Формула 1 • Спа-Франкоршам, Бельгия',
                     time: '15:00'
                 },
                 {
-                    sport: 'basketball',
-                    title: 'Кубок Европы FIBA - Финал',
-                    details: 'Мужской турнир • Словения',
+                    sport: 'football',
+                    title: 'Китайская Суперлига 2025',
+                    details: 'Шанхай Шэньхуа — Хэнань',
+                    time: '14:35'
+                },
+                {
+                    sport: 'football',
+                    title: 'МЛС 2025',
+                    details: 'Интер Майами — Цинциннати',
+                    time: '02:00'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'Mubadala Citi DC Open',
+                    details: 'ATP 500 / WTA 500 • Финал',
                     time: '20:00'
                 }
             ],
             28: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Нидерландов - Квалификация',
-                    details: 'Формула 1 • Зандвоорт',
-                    time: '16:00'
-                },
-                {
-                    sport: 'hockey',
-                    title: 'Кубок мира по хоккею - Старт',
-                    details: 'Сборная России - Финляндия',
-                    time: '19:00'
+                    sport: 'tennis',
+                    title: 'National Bank Open',
+                    details: 'ATP Masters 1000 / WTA 1000 • 1/32 финала',
+                    time: '17:00'
                 }
             ],
             29: [
                 {
-                    sport: 'formula1',
-                    title: 'Гран-при Нидерландов',
-                    details: 'Формула 1 • Зандвоорт',
-                    time: '15:00'
+                    sport: 'football',
+                    title: 'Товарищеские матчи 2025',
+                    details: 'Панатинаикос — Рейнджерс',
+                    time: '20:00'
                 },
                 {
                     sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Атлетико - Лацио • Мадрид',
+                    title: 'Товарищеские матчи 2025',
+                    details: 'Валенсия — Марсель',
                     time: '21:30'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'National Bank Open',
+                    details: 'ATP Masters 1000 / WTA 1000 • 1/32 финала',
+                    time: '17:00'
                 }
             ],
             30: [
                 {
                     sport: 'tennis',
-                    title: 'ATP Montreal Masters - Старт',
-                    details: 'ATP Masters 1000 • Канада',
-                    time: '18:00'
-                },
-                {
-                    sport: 'basketball',
-                    title: 'Евролига - Суперкубок',
-                    details: 'Финал четырёх • Белград',
-                    time: '20:00'
+                    title: 'National Bank Open',
+                    details: 'ATP Masters 1000 / WTA 1000 • 1/16 финала',
+                    time: '17:00'
                 }
             ],
             31: [
                 {
                     sport: 'football',
-                    title: 'Международный кубок чемпионов',
-                    details: 'Финал турнира • Лондон',
+                    title: 'Лига Конференций 2025/26',
+                    details: 'Зимбру — Астана • 1-й квалиф. раунд, ответ',
                     time: '20:00'
                 },
                 {
-                    sport: 'hockey',
-                    title: 'Кубок мира по хоккею',
-                    details: 'Сборная России - Канада',
-                    time: '02:00'
+                    sport: 'football',
+                    title: 'Товарищеские матчи 2025',
+                    details: 'Арсенал — Тоттенхэм • Северо-Лондонское дерби',
+                    time: '14:30'
+                },
+                {
+                    sport: 'tennis',
+                    title: 'National Bank Open',
+                    details: 'ATP Masters 1000 / WTA 1000 • 1/8 финала',
+                    time: '17:00'
                 }
             ]
         };
@@ -777,7 +1078,7 @@
             const daysContainer = document.getElementById('calendar-days');
             
             // Июль 2025 начинается во вторник (день недели 2)
-            const firstDayOfWeek = 2; // 0 = воскресенье, 1 = понедельник, 2 = вторник
+            const firstDayOfWeek = 2;
             const daysInMonth = 31;
             
             // Добавляем пустые ячейки для дней предыдущего месяца
@@ -807,10 +1108,8 @@
 
         // Выбор дня
         function selectDay(day) {
-            // Убираем выделение с предыдущего дня
             document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
             
-            // Выделяем выбранный день
             const dayElements = document.querySelectorAll('.day');
             const selectedDayElement = Array.from(dayElements).find(d => d.textContent == day);
             if (selectedDayElement) {
@@ -824,12 +1123,11 @@
         // Отображение событий
         function displayEvents(day) {
             const eventsPanel = document.getElementById('events-panel');
-            const noEvents = document.getElementById('no-events');
             
             if (!events[day] || events[day].length === 0) {
                 eventsPanel.innerHTML = `
                     <div class="no-events">
-                        <div class="no-events-icon">📅</div>
+                        <p>На ${day} июля событий нет</p>
                     </div>
                 `;
                 return;
@@ -843,7 +1141,6 @@
             if (filteredEvents.length === 0) {
                 eventsPanel.innerHTML = `
                     <div class="no-events">
-                        <div class="no-events-icon">🔍</div>
                         <p>Событий этого типа на ${day} июля нет</p>
                     </div>
                 `;
@@ -860,7 +1157,7 @@
                 };
 
                 return `
-                    <a href="https://lil.bet/events/${event.sport}/${day}-july-2025" class="event-card ${event.sport}" target="_blank">
+                    <a href="https://lil.bet/ru/line" class="event-card ${event.sport}" target="_blank">
                         <div class="event-header">
                             <div class="sport-icon ${event.sport}">${sportIcons[event.sport]}</div>
                             <div>
@@ -882,20 +1179,14 @@
             
             filterButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Убираем активный класс со всех кнопок
                     filterButtons.forEach(b => b.classList.remove('active'));
-                    
-                    // Добавляем активный класс к выбранной кнопке
                     btn.classList.add('active');
-                    
                     currentFilter = btn.dataset.sport;
                     
-                    // Если выбран день, обновляем события
                     if (selectedDay) {
                         displayEvents(selectedDay);
                     }
                     
-                    // Обновляем индикаторы на календаре
                     updateCalendarIndicators();
                 });
             });
@@ -923,20 +1214,6 @@
                 }
             });
         }
-
-        // Добавляем стили для выбранного дня
-        const additionalCSS = `
-            .day.selected {
-                background: linear-gradient(135deg, #ff00ff, #cc00cc) !important;
-                color: white !important;
-                transform: scale(1.1);
-                box-shadow: 0 6px 20px rgba(255, 0, 255, 0.4);
-            }
-        `;
-        
-        const style = document.createElement('style');
-        style.textContent = additionalCSS;
-        document.head.appendChild(style);
 
         // Инициализация приложения
         document.addEventListener('DOMContentLoaded', () => {
